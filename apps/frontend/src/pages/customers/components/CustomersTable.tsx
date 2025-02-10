@@ -2,13 +2,15 @@ import { Table } from "@/components/Table";
 import { useCustomers } from "../hooks/useCustomers";
 import { twMerge } from "tailwind-merge";
 import { LoadingSpinner } from "@/components/LoadingSpinner";
+import { useSearch } from "@tanstack/react-router";
 
 interface Props {
   name?: string;
 }
 
 export function CustomersTable({ name }: Props) {
-  const { data: customers } = useCustomers({ name });
+  const { sortBy } = useSearch({ from: "/customers/" });
+  const { data: customers } = useCustomers({ name, sortBy });
 
   return (
     <Table.Root>
