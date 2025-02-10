@@ -1,13 +1,15 @@
 import { Button } from "@/components/Button";
 import { isEmptyStringOrNil } from "@/utils/isEmptyStringOrNil";
-import { useNavigate } from "@tanstack/react-router";
-import { InputHTMLAttributes, forwardRef } from "react";
+import { useNavigate, useSearch } from "@tanstack/react-router";
+import { InputHTMLAttributes, forwardRef, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { twMerge } from "tailwind-merge";
-import { z } from "zod";
+import { dateRangeUtils } from "../utils/dateRangeUtils";
+import { match, P } from "ts-pattern";
 
-export function RangeForm() {
+export function DateRangeForm() {
   const navigate = useNavigate({ from: "/purchase-frequency" });
+  const { range } = useSearch({ from: "/purchase-frequency/" });
   const {
     register,
     handleSubmit,
@@ -17,32 +19,49 @@ export function RangeForm() {
     from: string | null;
     to: string | null;
   }>({
-    defaultValues: {
-      from: null,
-      to: null,
-    },
+    defaultValues:
+      range != null && dateRangeUtils.isValidRange(range)
+        ? dateRangeUtils.rangeToDateStrings(range)
+        : {
+            from: null,
+            to: null,
+          },
   });
+
+  useEffect(() => {
+    if (range != null && !dateRangeUtils.isValidRange(range)) {
+      navigate({
+        search: {},
+        replace: true,
+      });
+    }
+  }, [navigate, range]);
 
   return (
     <form
-      onSubmit={handleSubmit(({ from, to }) => {
-        if (from == null && to == null) {
-          navigate({
-            search: {},
-            replace: true,
-          });
-        } else if (from != null && to != null) {
-          navigate({
-            search: { from, to },
-            replace: true,
-          });
-        } else if (from != null) {
-          setError("from", { type: "required" });
-        } else if (to != null) {
-          setError("to", { type: "required" });
-        }
-      })}
       className="flex gap-4"
+      onSubmit={handleSubmit(({ from, to }) => {
+        match({ from, to })
+          .with({ from: null, to: null }, () => {
+            navigate({
+              search: {},
+              replace: true,
+            });
+          })
+          .with({ from: P.not(null), to: P.not(null) }, ({ from, to }) => {
+            navigate({
+              search: { range: dateRangeUtils.datesToRange({ from, to }) },
+              replace: true,
+            });
+          })
+          .with({ from: null, to: P.not(null) }, () => {
+            setError("from", { type: "required" });
+          })
+          .with({ from: P.not(null), to: null }, () => {
+            setError("to", { type: "required" });
+          })
+          .exhaustive();
+      })}
     >
       <div className="flex items-center gap-2">
         <DateInput
@@ -51,11 +70,7 @@ export function RangeForm() {
               return value === "" ? null : value;
             },
             validate: (value) => {
-              if (value == null) {
-                return true;
-              }
-
-              return z.string().date().safeParse(value).success;
+              return value == null || dateRangeUtils.isValidDate(value);
             },
           })}
           error={errors.from != null}
@@ -67,11 +82,7 @@ export function RangeForm() {
               return value === "" ? null : value;
             },
             validate: (value) => {
-              if (value == null) {
-                return true;
-              }
-
-              return z.string().date().safeParse(value).success;
+              return value == null || dateRangeUtils.isValidDate(value);
             },
           })}
           error={errors.to != null}

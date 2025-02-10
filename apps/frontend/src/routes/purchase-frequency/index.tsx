@@ -4,13 +4,9 @@ import { z } from "zod";
 
 export const Route = createFileRoute("/purchase-frequency/")({
   component: RouteComponent,
-  validateSearch: z.union([
-    z.object({
-      from: z.string().date(),
-      to: z.string().date(),
-    }),
-    z.object({}).strict(),
-  ]),
+  validateSearch: z.object({
+    range: z.string().optional(),
+  }),
 });
 
 function RouteComponent() {
