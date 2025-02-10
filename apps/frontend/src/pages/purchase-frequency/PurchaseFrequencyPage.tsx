@@ -1,3 +1,22 @@
+import { Layout } from "@/components/Layout";
+import { Suspense } from "react";
+import { PurchaseFrequencyChart } from "./components/PurchaseFrequencyChart";
+import { DateRangeForm } from "./components/DateRangeForm";
+import { LoadingSpinner } from "@/components/LoadingSpinner";
+
 export function PurchaseFrequencyPage() {
-  return <div>PurchaseFrequencyPage</div>;
+  return (
+    <Layout title="구매 빈도">
+      <DateRangeForm />
+      <Suspense
+        fallback={
+          <div className="mt-6 flex items-center justify-center">
+            <LoadingSpinner />
+          </div>
+        }
+      >
+        <PurchaseFrequencyChart />
+      </Suspense>
+    </Layout>
+  );
 }

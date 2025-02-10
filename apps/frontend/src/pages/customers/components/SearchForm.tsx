@@ -1,3 +1,4 @@
+import { Button } from "@/components/Button";
 import { useNavigate, useSearch } from "@tanstack/react-router";
 import { useForm } from "react-hook-form";
 
@@ -30,12 +31,7 @@ export function SearchForm() {
             },
           })}
         />
-        <button
-          type="submit"
-          className="bg-primary-500 cursor-pointer rounded border px-4 py-1"
-        >
-          검색
-        </button>
+        <Button type="submit">검색</Button>
       </div>
     </form>
   );
