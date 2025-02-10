@@ -14,6 +14,7 @@ import { Route as rootRoute } from './routes/__root'
 import { Route as IndexImport } from './routes/index'
 import { Route as PurchaseFrequencyIndexImport } from './routes/purchase-frequency/index'
 import { Route as CustomersIndexImport } from './routes/customers/index'
+import { Route as CustomersCustomerIdPurchasesIndexImport } from './routes/customers/$customerId/purchases/index'
 
 // Create/Update Routes
 
@@ -34,6 +35,13 @@ const CustomersIndexRoute = CustomersIndexImport.update({
   path: '/customers/',
   getParentRoute: () => rootRoute,
 } as any)
+
+const CustomersCustomerIdPurchasesIndexRoute =
+  CustomersCustomerIdPurchasesIndexImport.update({
+    id: '/customers/$customerId/purchases/',
+    path: '/customers/$customerId/purchases/',
+    getParentRoute: () => rootRoute,
+  } as any)
 
 // Populate the FileRoutesByPath interface
 
@@ -60,6 +68,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PurchaseFrequencyIndexImport
       parentRoute: typeof rootRoute
     }
+    '/customers/$customerId/purchases/': {
+      id: '/customers/$customerId/purchases/'
+      path: '/customers/$customerId/purchases'
+      fullPath: '/customers/$customerId/purchases'
+      preLoaderRoute: typeof CustomersCustomerIdPurchasesIndexImport
+      parentRoute: typeof rootRoute
+    }
   }
 }
 
@@ -69,12 +84,14 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/customers': typeof CustomersIndexRoute
   '/purchase-frequency': typeof PurchaseFrequencyIndexRoute
+  '/customers/$customerId/purchases': typeof CustomersCustomerIdPurchasesIndexRoute
 }
 
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/customers': typeof CustomersIndexRoute
   '/purchase-frequency': typeof PurchaseFrequencyIndexRoute
+  '/customers/$customerId/purchases': typeof CustomersCustomerIdPurchasesIndexRoute
 }
 
 export interface FileRoutesById {
@@ -82,14 +99,28 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/customers/': typeof CustomersIndexRoute
   '/purchase-frequency/': typeof PurchaseFrequencyIndexRoute
+  '/customers/$customerId/purchases/': typeof CustomersCustomerIdPurchasesIndexRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/customers' | '/purchase-frequency'
+  fullPaths:
+    | '/'
+    | '/customers'
+    | '/purchase-frequency'
+    | '/customers/$customerId/purchases'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/customers' | '/purchase-frequency'
-  id: '__root__' | '/' | '/customers/' | '/purchase-frequency/'
+  to:
+    | '/'
+    | '/customers'
+    | '/purchase-frequency'
+    | '/customers/$customerId/purchases'
+  id:
+    | '__root__'
+    | '/'
+    | '/customers/'
+    | '/purchase-frequency/'
+    | '/customers/$customerId/purchases/'
   fileRoutesById: FileRoutesById
 }
 
@@ -97,12 +128,15 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   CustomersIndexRoute: typeof CustomersIndexRoute
   PurchaseFrequencyIndexRoute: typeof PurchaseFrequencyIndexRoute
+  CustomersCustomerIdPurchasesIndexRoute: typeof CustomersCustomerIdPurchasesIndexRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   CustomersIndexRoute: CustomersIndexRoute,
   PurchaseFrequencyIndexRoute: PurchaseFrequencyIndexRoute,
+  CustomersCustomerIdPurchasesIndexRoute:
+    CustomersCustomerIdPurchasesIndexRoute,
 }
 
 export const routeTree = rootRoute
@@ -117,7 +151,8 @@ export const routeTree = rootRoute
       "children": [
         "/",
         "/customers/",
-        "/purchase-frequency/"
+        "/purchase-frequency/",
+        "/customers/$customerId/purchases/"
       ]
     },
     "/": {
@@ -128,6 +163,9 @@ export const routeTree = rootRoute
     },
     "/purchase-frequency/": {
       "filePath": "purchase-frequency/index.tsx"
+    },
+    "/customers/$customerId/purchases/": {
+      "filePath": "customers/$customerId/purchases/index.tsx"
     }
   }
 }

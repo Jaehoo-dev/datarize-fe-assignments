@@ -2,13 +2,14 @@ import { Table } from "@/components/Table";
 import { useCustomers } from "../hooks/useCustomers";
 import { twMerge } from "tailwind-merge";
 import { LoadingSpinner } from "@/components/LoadingSpinner";
-import { useSearch } from "@tanstack/react-router";
+import { useNavigate, useSearch } from "@tanstack/react-router";
 
 interface Props {
   name?: string;
 }
 
 export function CustomersTable({ name }: Props) {
+  const navigate = useNavigate({ from: "/customers" });
   const { sortBy } = useSearch({ from: "/customers/" });
   const { data: customers } = useCustomers({ name, sortBy });
 
@@ -26,6 +27,14 @@ export function CustomersTable({ name }: Props) {
                 "cursor-pointer hover:bg-gray-200",
                 짝수번째_행인가 ? "bg-gray-100" : "",
               )}
+              onClick={() => {
+                navigate({
+                  to: "/customers/$customerId/purchases",
+                  params: {
+                    customerId: customer.id.toString(),
+                  },
+                });
+              }}
             >
               <Table.Cell>{customer.id}</Table.Cell>
               <Table.Cell>{customer.name}</Table.Cell>
