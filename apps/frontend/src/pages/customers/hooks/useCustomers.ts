@@ -17,5 +17,5 @@ export function useCustomers(options: Options = {}) {
 }
 
 useCustomers.queryKey = (options: Options) => {
-  return ["customers", options];
+  return ["customers", options] as const;
 };
