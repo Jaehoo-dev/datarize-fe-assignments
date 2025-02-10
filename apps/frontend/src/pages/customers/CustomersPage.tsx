@@ -3,6 +3,7 @@ import { CustomersTable } from "./components/CustomersTable";
 import { SearchForm } from "./components/SearchForm";
 import { SortSelect } from "./components/SortSelect";
 import { Layout } from "@/components/Layout";
+import { ErrorBoundary } from "@/components/ErrorBoundary";
 
 export function CustomersPage() {
   return (
@@ -11,10 +12,11 @@ export function CustomersPage() {
         <SearchForm />
         <SortSelect />
       </div>
-      {/* TODO: handle error state */}
-      <Suspense fallback={<CustomersTable.Skeleton />}>
-        <CustomersTable />
-      </Suspense>
+      <ErrorBoundary>
+        <Suspense fallback={<CustomersTable.Skeleton />}>
+          <CustomersTable />
+        </Suspense>
+      </ErrorBoundary>
     </Layout>
   );
 }
