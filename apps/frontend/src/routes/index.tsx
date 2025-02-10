@@ -7,7 +7,7 @@ export const Route = createFileRoute("/")({
 function Home() {
   return (
     <div className="flex h-screen items-center justify-center">
-      <div className="flex flex-col items-center gap-4">
+      <div className="flex flex-col items-center gap-4 text-xl font-semibold">
         <Link to="/purchase-frequency" className="cursor-pointer underline">
           구매 빈도
         </Link>
