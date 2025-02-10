@@ -1,5 +1,32 @@
 # Datarize Frontend 과제 전형
 
+## 1. 실행 방법
+
+(선택) `apps/frontend/.env.example`을 참고해 서버 URL을 설정합니다.
+
+```cmd
+cd apps
+yarn install
+yarn start-server
+yarn start-client
+```
+
+## 2. 구조
+
+`main -> routes -> pages -> components, hooks, domains` 방향으로 의존합니다. 컴포넌트와 훅 등을 조합해 `pages`를 만들고 이 페이지 컴포넌트들을 `routes`에서 가져다 씁니다. 따라서 `pages` 구조는 `routes`와 같습니다. (File-based routing)
+
+`src` 최상단 디렉토리들은 프로젝트 전반에 걸쳐 공통으로 사용하는 코드이며, 지역적으로 사용하는 코드는 `pages` 속에서 다시 `components`, `hooks` 등에 담습니다. 페이지 사이에 공통으로 사용하지만 프로젝트 전체에서 공유할 필요는 없는 코드는 `domains`에 담았습니다.
+
+`libs/httpClient`는 `axios`를 간단히 감싼 메서드를 제공합니다. http 라이브러리를 바꾼다고 할 때 `httpClient`를 사용하는 곳은 인터페이스를 변경하지 않고 진행할 수 있습니다.
+
+관리해야 하는 상태들이 대부분 server-side state들이기에 TanStack Query를 이용해 데이터 요청과 클라이언트 쪽 캐싱을 추상화했습니다.
+
+애플리케이션 클라이언트 쪽에서 컴포넌트 사이에 공유해야 하는 상태는 주로 쿼리 파람을 활용해 관리했습니다.
+
+로딩 상태와 에러 상태는 해당 컴포넌트 내부 구현 코드까지 흘러들어가지 않도록 선언적 컴포넌트로 표현했습니다.
+
+---
+
 안녕하세요, 지원자님. Datarize Frontend Developer 서류 전형에 합격하신 것을 축하드립니다.  
 본 과제는 수신 후 24시간 동안 풀어주시면 됩니다.
 
