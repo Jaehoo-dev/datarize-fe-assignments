@@ -31,7 +31,7 @@ export function SearchForm({ defaultName, onSubmit }: Props) {
         />
         <button
           type="submit"
-          className="bg-primary-500 cursor-pointer rounded px-4 py-1"
+          className="bg-primary-500 cursor-pointer rounded border px-4 py-1"
         >
           검색
         </button>
