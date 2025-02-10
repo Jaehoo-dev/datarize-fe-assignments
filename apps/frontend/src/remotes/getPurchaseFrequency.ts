@@ -10,7 +10,7 @@ type PurchaseFrequencyResponse = Array<{
   count: number;
 }>;
 
-export function getPurchaseFrequency(options?: Options) {
+export async function getPurchaseFrequency(options?: Options) {
   const params =
     options != null
       ? {
@@ -19,7 +19,7 @@ export function getPurchaseFrequency(options?: Options) {
         }
       : {};
 
-  return api.get<PurchaseFrequencyResponse>("/purchase-frequency", {
+  return await api.get<PurchaseFrequencyResponse>("/purchase-frequency", {
     params,
   });
 }

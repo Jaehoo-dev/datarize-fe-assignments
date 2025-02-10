@@ -1,4 +1,4 @@
-import { useParams } from "@tanstack/react-router";
+import { ReactNode, useParams } from "@tanstack/react-router";
 import { usePurchaseHistory } from "../hooks/usePurchaseHistory";
 import { assert } from "@/utils/assert";
 
@@ -16,10 +16,7 @@ export function PurchaseHistory() {
       {purchaseHistory.map(
         ({ product, date, quantity, price, imgSrc }, index) => {
           return (
-            <li
-              key={`${product}-${index}`}
-              className="flex items-center gap-4 border-b border-gray-200 p-4"
-            >
+            <ListItemWrapper key={`${product}-${index}`}>
               <img
                 src={imgSrc}
                 alt={product}
@@ -37,7 +34,7 @@ export function PurchaseHistory() {
                   </div>
                 </div>
               </div>
-            </li>
+            </ListItemWrapper>
           );
         },
       )}
@@ -45,6 +42,27 @@ export function PurchaseHistory() {
   );
 }
 
+function ListItemWrapper({ children }: { children: ReactNode }) {
+  return (
+    <li className="flex items-center gap-4 border-b border-gray-200 p-4">
+      {children}
+    </li>
+  );
+}
+
 PurchaseHistory.Skeleton = () => {
-  return <div>Loading...</div>;
+  return (
+    <ul>
+      {Array.from({ length: 4 }).map((_, index) => (
+        <ListItemWrapper key={index}>
+          <div className="h-16 w-16 rounded bg-gray-300" />
+          <div className="flex flex-1 flex-col gap-2">
+            <div className="h-4 w-16 rounded bg-gray-300" />
+            <div className="h-3 w-20 rounded bg-gray-300" />
+            <div className="h-3 w-24 rounded bg-gray-300" />
+          </div>
+        </ListItemWrapper>
+      ))}
+    </ul>
+  );
 };
