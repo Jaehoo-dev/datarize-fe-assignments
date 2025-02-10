@@ -15,11 +15,12 @@ export function SortSelect() {
     <select
       className="rounded border px-2 py-1"
       value={sortBy}
-      onChange={(e) => {
+      onChange={({ target: { value } }) => {
         navigate({
           search: {
-            sortBy: e.target.value as (typeof options)[number]["value"],
+            sortBy: value as (typeof options)[number]["value"],
           },
+          replace: true,
         });
       }}
     >

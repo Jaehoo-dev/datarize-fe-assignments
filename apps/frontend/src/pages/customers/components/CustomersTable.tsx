@@ -4,13 +4,9 @@ import { twMerge } from "tailwind-merge";
 import { LoadingSpinner } from "@/components/LoadingSpinner";
 import { useNavigate, useSearch } from "@tanstack/react-router";
 
-interface Props {
-  name?: string;
-}
-
-export function CustomersTable({ name }: Props) {
+export function CustomersTable() {
   const navigate = useNavigate({ from: "/customers" });
-  const { sortBy } = useSearch({ from: "/customers/" });
+  const { name, sortBy } = useSearch({ from: "/customers/" });
   const { data: customers } = useCustomers({ name, sortBy });
 
   return (
