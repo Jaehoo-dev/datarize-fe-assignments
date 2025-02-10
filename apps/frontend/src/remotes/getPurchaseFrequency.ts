@@ -19,7 +19,7 @@ export async function getPurchaseFrequency(options?: Options) {
         }
       : {};
 
-  return await api.get<PurchaseFrequencyResponse>("/purchase-frequency", {
+  return await api.get<PurchaseFrequencyResponse>("/api/purchase-frequency", {
     params,
   });
 }
