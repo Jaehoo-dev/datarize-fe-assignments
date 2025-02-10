@@ -4,6 +4,7 @@ import { RouterProvider, createRouter } from "@tanstack/react-router";
 import { routeTree } from "./routeTree.gen";
 import "./styles/globals.css";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import GlobalErrorBoundary from "./components/GlobalErrorBoundary";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -36,9 +37,11 @@ if (!rootElement.innerHTML) {
 
   root.render(
     <StrictMode>
-      <QueryClientProvider client={queryClient}>
-        <RouterProvider router={router} />
-      </QueryClientProvider>
+      <GlobalErrorBoundary>
+        <QueryClientProvider client={queryClient}>
+          <RouterProvider router={router} />
+        </QueryClientProvider>
+      </GlobalErrorBoundary>
     </StrictMode>,
   );
 }
