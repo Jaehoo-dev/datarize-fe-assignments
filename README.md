@@ -55,7 +55,7 @@ yarn start-client
        - 쿼리 파라미터 (optional)
          - sortBy: 정렬 기준 (가능한 값: asc, desc - 구매 금액 순 정렬)
          - name: 이름 검색
-    3. GET `/api/customer/{id}/purchases` 특정 고객의 구매 내역을 반환합니다.
+    3. GET `/api/customers/{id}/purchases` 특정 고객의 구매 내역을 반환합니다.
 
 - 프론트엔드 기술 스택
   - `apps/frontend` 폴더 안에 미리 React 프로젝트를 세팅해 두었습니다. 이것을 사용하여 애플리케이션을 개발하세요. 상태 관리, 차트 라이브러리, CSS 프레임워크는 기호에 맞게 사용하셔도 좋습니다.
