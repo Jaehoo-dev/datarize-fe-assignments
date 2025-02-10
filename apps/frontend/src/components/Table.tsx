@@ -9,7 +9,7 @@ export const Table = {
   Header: (props: { children: ReactNode }) => {
     return (
       <thead>
-        <tr className="bg-gray-200">{props.children}</tr>
+        <tr className="bg-primary-500">{props.children}</tr>
       </thead>
     );
   },
