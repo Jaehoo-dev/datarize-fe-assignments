@@ -1,4 +1,6 @@
-import axios, { AxiosResponse } from "axios";
+import { ERROR_CODE } from "@/constants";
+import { DatarizeError } from "@/errors/DatarizeError";
+import axios, { AxiosError, AxiosResponse } from "axios";
 
 const TIMEOUT = 10_000;
 
@@ -16,10 +18,22 @@ interface GetOptions {
 
 export const api = {
   get: async <T>(url: string, options?: GetOptions): Promise<T> => {
-    const response: AxiosResponse<T> = await axiosInstance.get(url, {
-      params: options?.params,
-    });
+    try {
+      const response: AxiosResponse<T> = await axiosInstance.get(url, {
+        params: options?.params,
+      });
 
-    return response.data;
+      return response.data;
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        throw new DatarizeError(
+          error.response?.data.error ?? "Unknown error",
+          ERROR_CODE.NOT_FOUND,
+          error.response?.data.error,
+        );
+      }
+
+      throw error;
+    }
   },
 };

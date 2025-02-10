@@ -3,8 +3,12 @@ import { useCustomers } from "../hooks/useCustomers";
 import { twMerge } from "tailwind-merge";
 import { LoadingSpinner } from "@/components/LoadingSpinner";
 
-export function CustomersTable() {
-  const { data: customers } = useCustomers();
+interface Props {
+  name?: string;
+}
+
+export function CustomersTable({ name }: Props) {
+  const { data: customers } = useCustomers({ name });
 
   return (
     <Table.Root>
