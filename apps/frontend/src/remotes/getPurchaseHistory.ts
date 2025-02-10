@@ -8,8 +8,8 @@ type PurchaseHistoryResponse = Array<{
   imgSrc: string;
 }>;
 
-export function getPurchaseHistory(customerId: number) {
-  return api.get<PurchaseHistoryResponse>(
+export async function getPurchaseHistory(customerId: number) {
+  return await api.get<PurchaseHistoryResponse>(
     `/api/customers/${customerId}/purchases`,
   );
 }
